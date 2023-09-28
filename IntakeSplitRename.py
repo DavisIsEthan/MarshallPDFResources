@@ -21,6 +21,7 @@ split = [1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
 fpath = f"C:/Users/Davis/Desktop/MarshallPDFProject/Box{box}/Box0{box}/"
 fname = f"MarshallPentagonSelected_B0{box}_F{num}.pdf"
 reader = PdfReader(fpath+fname)
+merger = PdfWriter()
 
 outpath = f"C:/Users/Davis/Desktop/MarshallPDFProject/Box{box}_Output/Box0{box}/"
 outpathExist = os.path.exists(outpath)
@@ -28,7 +29,6 @@ if not outpathExist:
     os.makedirs(outpath)
 
 for i in range(0, (len(split)-1)):
-    merger = PdfWriter()
     span = split[i+1] - split[i] ### length of each sub document
     
     ### stuff for naming outputs nicely
