@@ -34,7 +34,10 @@ if not outpathExist:
 for i in range(0, (len(split))):
     merger = PdfWriter()
     if i == (len(split)-1):
-        span = split[i] - split[i-1] 
+        if len(split) == len(reader.pages):
+            span = split[i] - split[i-1]
+        else:
+            span = len(reader.pages) - (split[i]-1)
     else: 
         span = split[i+1] - split[i] ### length of each sub document
 
