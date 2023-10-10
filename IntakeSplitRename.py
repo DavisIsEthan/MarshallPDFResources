@@ -13,32 +13,41 @@ SCRIPT FOR EASIER SPLITTING AND NAMING OF MARHSALL PDFs
 import os
 from pypdf import PdfWriter, PdfReader
 
-j = 20
-box = "56"
+#### new j for box 056 = 20
+j = 1
+box = "57"
 num = "001"
-split = [1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+split = [1, 2, 3, 4, 5, 6, 7]
+
 
 fpath = f"C:/Users/Davis/Desktop/MarshallPDFProject/Box{box}/Box0{box}/"
 fname = f"MarshallPentagonSelected_B0{box}_F{num}.pdf"
 reader = PdfReader(fpath+fname)
-merger = PdfWriter()
+print(len(reader.pages))
+print(reader.pages)
 
 outpath = f"C:/Users/Davis/Desktop/MarshallPDFProject/Box{box}_Output/Box0{box}/"
 outpathExist = os.path.exists(outpath)
 if not outpathExist:
     os.makedirs(outpath)
 
-for i in range(0, (len(split)-1)):
-    span = split[i+1] - split[i] ### length of each sub document
+for i in range(0, (len(split))):
+    merger = PdfWriter()
+    if i == (len(split)-1):
+        span = split[i] - split[i-1] 
+    else: 
+        span = split[i+1] - split[i] ### length of each sub document
+
     
     ### stuff for naming outputs nicely
     hold = str(j).rjust(3, "0")
-    outname = f"MarshallPentagonSelected_B0{box}_F{hold}.pdf"
+    outname = f"MarshallPentagonSelected_B0{box}_F{num}_{hold}.pdf"
     outfile = outpath+outname
     print(outname)
     
     ### split the file, append the pages, write to output
     merger.append(reader, (split[i]-1, split[i]-1 + span))
+    print((split[i]-1, split[i]-1 + span))
     output = open(outfile, 'wb')
     merger.write(output)
     merger.close()
